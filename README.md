@@ -27,7 +27,7 @@ quasar build
 ```
 or 
 ```bash
-yarn build 
+yarn build (recomended) 
 ```
 
 ### Customize the configuration

@@ -26,10 +26,6 @@
 import columns from './columns'
 import DataTable from 'components/DataTable'
 import editPromocode from '../editPromoModal/editPromo'
-import { Util } from '../../Helper/utils'
-
-const util = Object.create(Util.prototype)
-
 export default {
   name: 'promoTable',
   components: { DataTable, editPromocode },
@@ -65,16 +61,12 @@ export default {
     },
     async createUpdate (id, value) {
       if (!id) {
-        const res = await this.$app.promocodes.addNew(value)
-        console.dir(util)
-        res.errors.forEach(item => {
-          util.highLightRequired(item.source)
-        })
+        await this.$app.promocodes.addNew(value)
       } else {
         await this.$app.promocodes.updateOne({ id, data: value })
       }
-      // this.isModal = false
-      // this.keyNumber++
+      this.isModal = false
+      this.keyNumber++
     },
     async promoDelete (id) {
       await this.$app.promocodes.deleteOne(id)
