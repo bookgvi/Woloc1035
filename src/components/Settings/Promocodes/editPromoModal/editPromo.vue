@@ -11,7 +11,7 @@
         span Название промокода
     .row.q-pb-md
       .col
-        q-input(
+        q-input.alias(
           v-model="alias"
           outlined
           dense
@@ -39,8 +39,7 @@
           multiple
           outlined
           dense
-          lazy-rules
-          :rules="[ val => !!val || '* Поле обязательно для заполнения']"
+          :error="$v.rooms.$error"
         )
 
     .row.q-pb-sm
@@ -52,15 +51,15 @@
         span Тип
     .row.q-pb-md
       .col.q-pr-sm
-        q-input(
+        q-input.discount(
           v-model="discount"
           outlined
           dense
           lazy-rules
-          :rules="[ val => val && val.length > 0 || '* Поле обязательно для заполнения']"
+          :rules="[ val => !!val || '* Поле обязательно для заполнения']"
         )
       .col
-         q-select(
+         q-select.type(
            v-model="discountType"
            :options="allDiscountTypes"
            outlined
@@ -76,12 +75,12 @@
         span Статус
     .row.q-pb-md
       .col.q-pr-sm
-        q-input(
+        q-input.minPrice(
           v-model="minPrice"
           outlined
           dense
           lazy-rules
-          :rules="[ val => val && val.length > 0 || '* Поле обязательно для заполнения']"
+          :rules="[ val => !!val || '* Поле обязательно для заполнения']"
         )
       .col
         q-select(
@@ -99,7 +98,7 @@
         span Период действия
     .row.q-pb-xl
       .col-6.q-pr-sm
-        VueCtkDateTimePicker.q-pt-sm(
+        VueCtkDateTimePicker.q-pt-sm.startedAt(
           id="datePicker1"
           v-model="dateRange1"
           color="#81AEB6"
@@ -109,9 +108,11 @@
           no-label
           :label="dateLabel1"
           class="datePickerCustomization"
+          lazy-rules
+          :rules="[ val => !!val || '* Поле обязательно для заполнения']"
         )
       .col-6.q-pl-xs
-        VueCtkDateTimePicker.q-pt-sm(
+        VueCtkDateTimePicker.q-pt-sm.dateFrom(
           id="datePicker2"
           v-model="dateRange2"
           color="#81AEB6"
@@ -121,6 +122,8 @@
           no-label
           :label="dateLabel2"
           class="datePickerCustomization"
+          lazy-rules
+          :rules="[ val => !!val || '* Поле обязательно для заполнения']"
         )
     .row.q-py-md
       .col-6.q-pl-sm
@@ -136,7 +139,7 @@
 import { date } from 'quasar'
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker'
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
-
+import { required } from 'vuelidate/lib/validators'
 export default {
   props: {
     row: {
@@ -245,6 +248,7 @@ export default {
       }
     },
     async savePromo () {
+      this.$v.rooms.$touch()
       this.$emit('createUpdate', this.row.id, {
         alias: this.alias,
         rooms: this.roomSelected,
@@ -258,6 +262,9 @@ export default {
         dateTo: this.dateRange2['end'] ? this.dateRange2['end'].split(' ')[0] : this.dateRange2['end']
       })
     }
+  },
+  validations: {
+    rooms: { required }
   }
 }
 </script>
