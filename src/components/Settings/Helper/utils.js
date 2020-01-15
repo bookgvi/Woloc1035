@@ -36,7 +36,7 @@ Util.prototype = {
   * которое срабатывает при потере фокуса
   * */
   highLightRequired (fieldClass) {
-    const field = document.querySelector(`.${fieldClass} input`)
+    const field = document.querySelector(`.${fieldClass}`)
     field.focus()
     field.blur()
   }
