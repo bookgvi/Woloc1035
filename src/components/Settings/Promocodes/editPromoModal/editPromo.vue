@@ -164,7 +164,7 @@ export default {
         typeAll: { 'rub': 'В рублях', 'percent': 'В процентах' },
         minPrice: '',
         isPublic: 0,
-        statusArr: ['Публичный', 'Персональный'],
+        statusArr: ['Персональный', 'Публичный'],
         lang: 'ru',
         dateLabel1: '',
         dateRange1: '',
