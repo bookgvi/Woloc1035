@@ -64,15 +64,18 @@ export default {
     },
     async createUpdate (id, value) {
       if (!id) {
-        await this.$app.extras.addNew(value)
+        const { errors } = await this.$app.extras.addNew(value)
+        if (errors) return
       } else {
-        await this.$app.extras.updateOne({ id, data: value })
+        const { errors } = await this.$app.extras.updateOne({ id, data: value })
+        if (errors) return
       }
       this.isModal = false
       this.keyNumber++
     },
     async extraDelete (id) {
-      await this.$app.extras.deleteOne(id)
+      const { errors } = await this.$app.extras.deleteOne(id)
+      if (errors) return
       this.isModal = false
       this.keyNumber++
     },
