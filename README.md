@@ -1,4 +1,3 @@
-# QQQ
 # Ugoloc Admin Panel (ugoloc-admin-front)
 
 Admin Panel for ugoloc.ru
@@ -28,7 +27,7 @@ quasar build
 ```
 or 
 ```bash
-yarn build 
+yarn build (recomended) 
 ```
 
 ### Customize the configuration
