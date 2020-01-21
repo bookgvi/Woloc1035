@@ -79,15 +79,18 @@ export default {
     },
     async createUpdate (id, value) {
       if (!id) {
-        await this.$app.discounts.addNew(value)
+        const { errors } = await this.$app.discounts.addNew(value)
+        if (errors) return
       } else {
-        await this.$app.discounts.updateOne({ id, data: value })
+        const { errors } = await this.$app.discounts.updateOne({ id, data: value })
+        if (errors) return
       }
       this.isModal = false
       this.keyNumber++
     },
     async discountDelete (id) {
-      await this.$app.discounts.deleteOne(id)
+      const { errors } = await this.$app.discounts.deleteOne(id)
+      if (errors) return
       this.isModal = false
       this.keyNumber++
     }
