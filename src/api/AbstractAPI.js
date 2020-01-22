@@ -35,7 +35,7 @@ AbstractAPI.prototype = {
     const { id, data } = payload
     try {
       const status = await api.put(`${this.url}/${id}`, data)
-      if (status.data) {
+      if (!status.errors) {
         showNotif('Изменения сохранены', 'green')
         return status.data
       } else {
@@ -51,7 +51,7 @@ AbstractAPI.prototype = {
   addNew: async function (payload) {
     try {
       const status = await api.post(this.url, payload)
-      if (status.data) {
+      if (!status.errors) {
         showNotif('Успешно', 'green')
         return status
       } else {
@@ -68,7 +68,7 @@ AbstractAPI.prototype = {
     const { id } = payload
     try {
       const status = await api.delete(`${this.url}/${id}`)
-      if (status.data) {
+      if (!status.errors) {
         showNotif('Успешно', 'green')
         return status.data
       } else {
@@ -84,8 +84,12 @@ AbstractAPI.prototype = {
   uploadImage: async function (payload, config) {
     try {
       const status = await api.post(`${this.url}/upload-image`, payload, config)
-      if (status.data) {
+      if (!status.errors) {
+        // showNotif('Изображение успешно добавлено', 'green')
         return status.data
+      } else {
+        showNotif('Ошибка загрузки изображения', 'red')
+        return status
       }
     } catch (err) {
       console.warn('catch :: uploadImage', err)

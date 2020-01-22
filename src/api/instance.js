@@ -7,13 +7,12 @@ const currentURL = (_ => {
   let baseURL = currentURL.hostname
   let isCabinet = currentURL.hostname.split('.')
   if (baseURL === 'localhost') {
-    baseURL = 'https://pre.ugoloc.ucann.ru'
-    // baseURL = 'https://ugoloc-828.shot.ugoloc.ucann.ru'
+    // baseURL = 'https://pre.ugoloc.ucann.ru'
+    baseURL = 'https://ugoloc-828.shot.ugoloc.ucann.ru'
   } else if (isCabinet[0] === `cabinet`) {
     isCabinet.shift()
     baseURL = `https://${isCabinet.join('.')}`
   }
-  baseURL = 'https://pre.ugoloc.ucann.ru'
   return `${baseURL}/api`
 })()
 const instance = axios.create({
@@ -58,7 +57,8 @@ instance.interceptors.response.use(
     const response = error.response
     // console.info('response error', response.data)// for debug
     if (response) {
-      if (response.status >= 500 && response.status < 527) {
+      const serverError = String(response.status).match(/^5\d./)
+      if (serverError && serverError[0]) {
         return Promise.reject(error)
       }
       switch (response.status) {
