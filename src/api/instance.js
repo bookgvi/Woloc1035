@@ -7,12 +7,12 @@ const currentURL = (_ => {
   let baseURL = currentURL.hostname
   let isCabinet = currentURL.hostname.split('.')
   if (baseURL === 'localhost') {
-    // baseURL = 'https://pre.ugoloc.ucann.ru'
-    baseURL = 'https://ugoloc-828.shot.ugoloc.ucann.ru'
+    baseURL = 'https://pre.ugoloc.ucann.ru'
   } else if (isCabinet[0] === `cabinet`) {
     isCabinet.shift()
     baseURL = `https://${isCabinet.join('.')}`
   }
+  // baseURL = 'https://ugoloc-828.shot.ugoloc.ucann.ru'
   return `${baseURL}/api`
 })()
 const instance = axios.create({
@@ -36,6 +36,7 @@ instance.interceptors.request.use(
     // Do something before request is sent
     const token = LocalStorage.getItem('user-token')
     if (token) {
+      conf.headers['X-Requested-With'] = 'XMLHttpRequest'
       conf.headers['Authorization'] = `Bearer ${token}`
     }
     return conf
